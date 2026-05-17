@@ -1,0 +1,12 @@
+# Compiled binaries
+ssol_user_agent
+ssol_exec_probe
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Local runtime directories and sockets
+*.sock
+*.db
+test_ssol.txt
