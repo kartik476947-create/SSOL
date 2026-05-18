@@ -1,0 +1,34 @@
+[Unit]
+Description=SecureShield OS Layer (SSOL) Sovereign Daemon
+Documentation=https://github.com/moneyutkarsh/SSOL
+After=network.target systemd-sysctl.service
+Before=user.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/share/ssol
+Environment=PYTHONUNBUFFERED=1
+
+# Pre-execution validation checks
+ExecStartPre=/usr/local/bin/ssol_health_check.sh
+
+# Run the central daemon orchestrator
+ExecStart=/usr/bin/python3 ssol_daemon.py
+
+# Restart policy for resilience
+Restart=always
+RestartSec=5
+
+# Elevated Capability Sets for eBPF sniffing & Network namespaces
+CapabilityBoundingSet=CAP_SYS_ADMIN CAP_NET_ADMIN CAP_SYS_RAWIO CAP_NET_RAW CAP_SYS_PTRACE CAP_DAC_OVERRIDE
+AmbientCapabilities=CAP_SYS_ADMIN CAP_NET_ADMIN CAP_SYS_RAWIO CAP_NET_RAW CAP_SYS_PTRACE CAP_DAC_OVERRIDE
+
+# Hardened sandboxing constraints
+ProtectSystem=full
+ProtectHome=true
+PrivateDevices=false
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target

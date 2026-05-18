@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureShield OS Layer // Sovereign Defense Center</title>
+    <!-- Modern Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #080b11;
+            --surface-color: rgba(13, 18, 30, 0.45);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-emerald: #10b981;
+            --accent-red: #ef4444;
+            --accent-amber: #f59e0b;
+            --glow-color: rgba(59, 130, 246, 0.15);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(139, 92, 246, 0.05) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .glass {
+            background: var(--surface-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Top Header Navigation */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 17, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-hex {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: pulse-hex 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-hex {
+            0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--accent-blue)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 8px var(--accent-purple)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 2px var(--accent-blue)); }
+        }
+
+        .logo-title {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge-secure {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+        }
+
+        .badge-secure::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-emerald);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--accent-emerald);
+        }
+
+        /* Main Workspace Grid Layout */
+        .workspace {
+            max-width: 1700px;
+            margin: 30px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 30px;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h2::before {
+            content: '//';
+            color: var(--accent-blue);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Module Health Status Matrix Grid */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .module-card {
+            padding: 16px 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .module-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .module-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .module-status {
+            font-size: 15px;
+            font-weight: 800;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-dot.healthy { background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald); }
+        .status-dot.warn { background: var(--accent-amber); box-shadow: 0 0 8px var(--accent-amber); }
+        .status-dot.error { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
+
+        .module-status.healthy { color: var(--accent-emerald); }
+        .module-status.warn { color: var(--accent-amber); }
+        .module-status.error { color: var(--accent-red); }
+
+        /* Left-side telemetry canvas threat maps & feeds */
+        .threat-canvas-panel {
+            padding: 24px;
+            margin-bottom: 35px;
+        }
+
+        #threat-canvas {
+            width: 100%;
+            height: 220px;
+            background: rgba(5, 7, 12, 0.7);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* SSE Real-time alert feed pane */
+        .alert-panel {
+            padding: 24px;
+        }
+
+        .alert-feed {
+            height: 380px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-right: 8px;
+        }
+
+        .alert-feed::-webkit-scrollbar {
+            width: 6px;
+        }
+        .alert-feed::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .alert-feed::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .alert-item {
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-red);
+            background: rgba(239, 68, 68, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            animation: slide-in-alert 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            border-top: 1px solid rgba(239, 68, 68, 0.08);
+            border-bottom: 1px solid rgba(239, 68, 68, 0.08);
+            border-right: 1px solid rgba(239, 68, 68, 0.08);
+        }
+
+        .alert-item.medium {
+            border-left-color: var(--accent-amber);
+            background: rgba(245, 158, 11, 0.05);
+            border-top: 1px solid rgba(245, 158, 11, 0.08);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.08);
+            border-right: 1px solid rgba(245, 158, 11, 0.08);
+        }
+
+        @keyframes slide-in-alert {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alert-action {
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .alert-item.medium .alert-action { color: var(--accent-amber); }
+        .alert-item:not(.medium) .alert-action { color: var(--accent-red); }
+
+        .alert-ttp {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .alert-details {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .alert-footer {
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Right-side analytical KPIs, risk gauges, and SOAR controls */
+        .metrics-card {
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        /* SOAR Orchestrator manual controls */
+        .control-panel {
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .btn-action {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.8), rgba(185, 28, 28, 0.9));
+            color: #ffffff;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            transition: all 0.2s ease-in-out;
+            margin-bottom: 12px;
+        }
+
+        .btn-action:hover {
+            filter: brightness(1.15);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-action.amber {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.8), rgba(217, 119, 6, 0.9));
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+        .btn-action.amber:hover {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-action.blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(29, 78, 216, 0.9));
+            border-color: rgba(59, 130, 246, 0.3);
+            margin-bottom: 0;
+        }
+        .btn-action.blue:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        /* GRC OPA Compliance panel checklist */
+        .compliance-panel {
+            padding: 24px;
+        }
+
+        .compliance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .compliance-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .comp-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .comp-verdict {
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .comp-verdict.compliant { color: var(--accent-emerald); }
+        .comp-verdict.violation { color: var(--accent-red); }
+
+        .console-log-overlay {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 130px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo-hex"></div>
+            <div class="logo-title">SECURESHIELD OS LAYER</div>
+        </div>
+        <div class="badge-secure" id="shield-badge">SOVEREIGN PROTECT ACTIVE</div>
+    </div>
+
+    <!-- Main Grid Dashboard Area -->
+    <div class="workspace">
+        
+        <!-- Left Column: Health, canvas neural lateral movement nodes, and logs -->
+        <div>
+            <h2>Active Telemetry Health Grid</h2>
+            <div class="module-grid" id="module-grid">
+                <!-- Dynamically loaded -->
+            </div>
+
+            <h2>Real-Time Neural Attack Map</h2>
+            <div class="glass threat-canvas-panel">
+                <canvas id="threat-canvas"></canvas>
+            </div>
+
+            <h2>SSOL Cryptographic Telemetry Stream (FIPS Watchdog / WORM Ledger)</h2>
+            <div class="glass alert-panel">
+                <div class="alert-feed" id="alert-feed">
+                    <div class="console-log-overlay">
+                        [-] Standing by. Initializing secure SSE /ws tunnel handshake...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Host metrics KPIs, manual SOAR triggers, and Compliance -->
+        <div>
+            <h2>Host Integrity KPIs</h2>
+            <div class="glass metrics-card">
+                <div class="metric-row">
+                    <div class="metric-label">System Threat Rating</div>
+                    <div class="metric-value" style="color: var(--accent-emerald);" id="risk-score">10% (SECURE)</div>
+                </div>
+                <div class="metric-row">
+                    <div class="metric-label">Total Telemetry Ingested</div>
+                    <div class="metric-value" id="total-events">0</div>
+                </div>
+                <div class="metric-row">
+                    <div class="metric-label">Threats Neutered (SIGKILL)</div>
+                    <div class="metric-value" style="color: var(--accent-emerald);" id="threats-blocked">0</div>
+                </div>
+                <div class="metric-row">
+                    <div class="metric-label">Entities Quarantined</div>
+                    <div class="metric-value" style="color: var(--accent-amber);" id="threats-quarantined">0</div>
+                </div>
+                <div class="metric-row">
+                    <div class="metric-label">Cryptographic WORM Logs</div>
+                    <div class="metric-value" id="worm-ledger-count">0</div>
+                </div>
+            </div>
+
+            <h2>Active SOAR Controls</h2>
+            <div class="glass control-panel">
+                <button class="btn-action" onclick="triggerManualAction('kill_pid', '4120')">
+                    DISPATCH SIGKILL (PID: 4120)
+                </button>
+                <button class="btn-action amber" onclick="triggerManualAction('block_ip', '192.168.1.105')">
+                    BLOCK SUSPICIOUS HOST (192.168.1.105)
+                </button>
+                <button class="btn-action blue" onclick="triggerManualAction('rollback_lvm', '/opt/secure_directory')">
+                    ROLLBACK LVM SNAPSHOT (/opt)
+                </button>
+            </div>
+
+            <h2>GRC Policy Compliance Monitor</h2>
+            <div class="glass compliance-panel" id="compliance-panel">
+                <div class="compliance-row">
+                    <span class="comp-tag">NIST 800-53 AC-6</span>
+                    <span class="comp-verdict compliant" id="comp-nist">● COMPLIANT</span>
+                </div>
+                <div class="compliance-row">
+                    <span class="comp-tag">GDPR Art. 32</span>
+                    <span class="comp-verdict compliant" id="comp-gdpr">● COMPLIANT</span>
+                </div>
+                <div class="compliance-row">
+                    <span class="comp-tag">PCI-DSS Req 7.1.2</span>
+                    <span class="comp-verdict compliant" id="comp-pci">● COMPLIANT</span>
+                </div>
+                <div class="compliance-row">
+                    <span class="comp-tag">SOC 2 Trust Principles</span>
+                    <span class="comp-verdict compliant" id="comp-soc">● COMPLIANT</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- UI Logic & Real-time Integration -->
+    <script>
+        // Init Status Grid Modules
+        const modules = [
+            "pre_install", "user_rust_enclave", "ebpf_behavioral_monitor", 
+            "dns_security", "threat_intel", "ueba_engine", "supply_chain_guard", 
+            "zero_trust", "privilege_manager", "microsandbox", "memory_forensics",
+            "deception_trap", "forensics_grc", "fp_reducer", "lstm_anomaly", "gnn_lateral"
+        ];
+        
+        function populateModuleGrid() {
+            const grid = document.getElementById('module-grid');
+            grid.innerHTML = '';
+            modules.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'glass module-card';
+                card.id = `m-card-${m}`;
+                card.innerHTML = `
+                    <div class="module-name">${m.replace(/_/g, ' ')}</div>
+                    <div class="module-status healthy" id="m-status-${m}">
+                        <span class="status-dot healthy"></span> ONLINE
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        populateModuleGrid();
+
+        // Canvas Neural Node animation
+        const canvas = document.getElementById('threat-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = canvas.offsetHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
+        });
+
+        const nodes = [];
+        for (let i = 0; i < 40; i++) {
+            nodes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.8,
+                vy: (Math.random() - 0.5) * 0.8,
+                pulse: Math.random() * Math.PI
+            });
+        }
+
+        let threatNodes = [];
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw background connections
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dist = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw benign node dots
+            nodes.forEach(n => {
+                n.x += n.vx;
+                n.y += n.vy;
+                if (n.x < 0 || n.x > width) n.vx *= -1;
+                if (n.y < 0 || n.y > height) n.vy *= -1;
+
+                n.pulse += 0.03;
+                const size = 2 + Math.abs(Math.sin(n.pulse)) * 2;
+
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.4)';
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Draw animated threat nodes if any active threat
+            threatNodes.forEach((t, index) => {
+                t.pulse += 0.05;
+                const size = 6 + Math.abs(Math.sin(t.pulse)) * 6;
+
+                // Glowing threat radius
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+                ctx.beginPath();
+                ctx.arc(t.x, t.y, size * 2.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
+                ctx.beginPath();
+                ctx.arc(t.x, t.y, size * 0.7, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Text details
+                ctx.fillStyle = '#ef4444';
+                ctx.font = '9px JetBrains Mono';
+                ctx.fillText(`THREAT::${t.label}`, t.x + 10, t.y - 10);
+            });
+
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // Add visual threat to neural graph on alerts
+        function triggerGraphThreat(label) {
+            threatNodes.push({
+                x: Math.random() * (width - 100) + 50,
+                y: Math.random() * (height - 60) + 30,
+                pulse: 0,
+                label: label
+            });
+            if (threatNodes.length > 5) threatNodes.shift();
+        }
+
+        // SSE Real-time Feed connection (acts as WebSocket channel)
+        const source = new EventSource('/ws');
+        
+        source.onmessage = function(e) {
+            const payload = JSON.parse(e.data);
+            
+            if (payload.event_type === 'alert') {
+                const feed = document.getElementById('alert-feed');
+                
+                // Clear console overlay
+                if (feed.querySelector('.console-log-overlay')) {
+                    feed.innerHTML = '';
+                }
+                
+                const item = document.createElement('div');
+                item.className = 'alert-item' + (payload.data.severity === 'MEDIUM' ? ' medium' : '');
+                
+                const formattedTime = new Date(payload.data.timestamp * 1000).toLocaleTimeString();
+                
+                item.innerHTML = `
+                    <div class="alert-header">
+                        <span class="alert-action">[${payload.data.action_taken}] ${payload.data.event_type}</span>
+                        <span class="alert-ttp">TTP: ${payload.data.ttp}</span>
+                    </div>
+                    <div class="alert-details">
+                        ${payload.data.details}
+                    </div>
+                    <div class="alert-footer">
+                        <span>Risk score deviation: ${payload.data.risk_score}%</span>
+                        <span>Logged: ${formattedTime}</span>
+                    </div>
+                `;
+                feed.insertBefore(item, feed.firstChild);
+                
+                // Glow neural node threat
+                triggerGraphThreat(payload.data.ttp);
+
+                // Update health cards temporarily on threat to show active inspection
+                const threatModule = determineThreatModule(payload.data.ttp);
+                triggerModuleHealthGlow(threatModule, payload.data.severity === 'MEDIUM' ? 'warn' : 'error');
+            }
+        };
+
+        // Map TTPs to corresponding active modules for UX glow
+        function determineThreatModule(ttp) {
+            if (ttp === 'T1071.001') return 'dns_security';
+            if (ttp === 'T1046') return 'threat_intel';
+            if (ttp === 'T1562.001') return 'privilege_manager';
+            if (ttp === 'T1204.002') return 'microsandbox';
+            return 'ueba_engine';
+        }
+
+        function triggerModuleHealthGlow(mName, state) {
+            const mStatus = document.getElementById(`m-status-${mName}`);
+            const mCard = document.getElementById(`m-card-${mName}`);
+            if (!mStatus || !mCard) return;
+
+            if (state === 'error') {
+                mCard.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                mStatus.className = 'module-status error';
+                mStatus.innerHTML = '<span class="status-dot error"></span> FAULT';
+                
+                // Toggle badge
+                document.getElementById('shield-badge').className = 'badge-secure';
+                document.getElementById('shield-badge').style.borderColor = '#ef4444';
+                document.getElementById('shield-badge').style.color = '#ef4444';
+                document.getElementById('shield-badge').innerText = 'BREACH INTERCEPTED';
+                
+                // Toggle OPA compliance state
+                document.getElementById('comp-gdpr').className = 'comp-verdict violation';
+                document.getElementById('comp-gdpr').innerText = '● VIOLATION';
+            } else {
+                mCard.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                mStatus.className = 'module-status warn';
+                mStatus.innerHTML = '<span class="status-dot warn"></span> INSPECTION';
+            }
+
+            // Restore healthy state after 4 seconds
+            setTimeout(() => {
+                mCard.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                mStatus.className = 'module-status healthy';
+                mStatus.innerHTML = '<span class="status-dot healthy"></span> ONLINE';
+                
+                document.getElementById('shield-badge').style = '';
+                document.getElementById('shield-badge').className = 'badge-secure';
+                document.getElementById('shield-badge').innerText = 'SOVEREIGN PROTECT ACTIVE';
+
+                document.getElementById('comp-gdpr').className = 'comp-verdict compliant';
+                document.getElementById('comp-gdpr').innerText = '● COMPLIANT';
+            }, 5000);
+        }
+
+        // Fetch Live Metrics
+        function updateMetrics() {
+            fetch('/metrics').then(r => r.json()).then(data => {
+                const total = data.threats_blocked + data.threats_quarantined;
+                
+                // Update text elements
+                document.getElementById('total-events').innerText = data.total_events_processed;
+                document.getElementById('threats-blocked').innerText = data.threats_blocked;
+                document.getElementById('threats-quarantined').innerText = data.threats_quarantined;
+                document.getElementById('worm-ledger-count').innerText = data.total_events_processed + total;
+
+                const scoreEl = document.getElementById('risk-score');
+                scoreEl.innerText = `${data.system_risk_score}%` + (data.system_risk_score > 50 ? ' (THREAT ACTION)' : ' (SECURE)');
+                
+                if (data.system_risk_score > 50) {
+                    scoreEl.style.color = 'var(--accent-red)';
+                } else {
+                    scoreEl.style.color = 'var(--accent-emerald)';
+                }
+            });
+        }
+        setInterval(updateMetrics, 2000);
+        updateMetrics();
+
+        // Fetch Statuses on startup
+        fetch('/status').then(r => r.json()).then(data => {
+            Object.entries(data.modules).forEach(([m, status]) => {
+                const el = document.getElementById(`m-status-${m}`);
+                if (el) {
+                    el.className = `module-status ${status.toLowerCase()}`;
+                    el.innerHTML = `<span class="status-dot ${status.toLowerCase()}"></span> ${status}`;
+                }
+            });
+        });
+
+        // Trigger manual action
+        function triggerManualAction(action, target) {
+            fetch('/action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action, target })
+            }).then(r => r.json()).then(res => {
+                alert(res.message);
+                updateMetrics();
+            });
+        }
+    </script>
+</body>
+</html>

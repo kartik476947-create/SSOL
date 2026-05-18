@@ -1,0 +1,19 @@
+# Core Framework & Utilities
+PyYAML>=6.0.1
+PyJWT>=2.8.0
+Flask>=3.0.2
+
+# Tier 4 DNS Security
+scapy>=2.5.0
+
+# Tier 4 Threat Intelligence
+taxii2client>=2.1.0
+mitreattack-python>=2.0.0
+
+# Tier 2 UEBA & GNN
+torch>=2.0.0
+torch-geometric>=2.3.0
+numpy>=1.24.0
+
+# Memory Forensics
+volatility3>=2.0.0

@@ -1,0 +1,32 @@
+ssol:
+  daemon:
+    host: "0.0.0.0"
+    port: 8765
+    socket_path: "/tmp/ssol_behavioral.sock"
+    log_level: "INFO"
+    mock_mode: true
+  dns:
+    interface: "eth0"
+    dga_threshold: 0.75
+    warn_plaintext_dns: true
+  threat_intel:
+    taxii_url: "https://cti-taxii.mitre.org/taxii"
+    db_path: "ssol_ioc_cache.db"
+    refresh_hours: 6
+  ueba:
+    risk_threshold: 65
+  supply_chain:
+    sbom_format: "CycloneDX"
+    manifest_path: "ssol_sbom_manifest.json"
+  zero_trust:
+    token_timeout_seconds: 900
+    sensitive_paths:
+      - "/etc/shadow"
+      - "/root"
+      - "/proc/kcore"
+  privilege:
+    sudo_duration_seconds: 60
+  sandbox:
+    use_gvisor: false
+  memory_forensics:
+    scan_interval_minutes: 30
