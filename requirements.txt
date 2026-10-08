@@ -7,7 +7,7 @@ Flask>=3.0.2
 scapy>=2.5.0
 
 # Tier 4 Threat Intelligence
-taxii2client>=2.1.0
+taxii2-client>=2.1.0
 mitreattack-python>=2.0.0
 
 # Tier 2 UEBA & GNN
